@@ -1,5 +1,6 @@
 // Requires
 var express = require('express');
+const { deleteImage } = require('./imagenes');
 
 // Inicializar variables
 var app = express();
@@ -38,11 +39,40 @@ app.get('/', (req, res) => {
 });
 
 //=====================================
+// Cargar hospital
+//=====================================
+app.get('/:id', mdAutenticacion.verificaToken, (req, res) => {
+  var id = req.params.id;
+
+  Hospital.findById(id)
+    .populate('usuario', 'nombre img email')
+    .exec((err, hospital) => {
+      if (err) {
+        return res.status(500).json({
+          mensaje: 'Error cargando hospital',
+          errors: err
+        });
+      }
+
+      if (!hospital) {
+        return res.status(400).json({
+          mensaje: `No existe un hospital con el ID: ${id}`,
+          errors: 'No existe un hospital con ese ID'
+        });
+      }
+
+      res.status(200).json({
+        hospital
+      });
+    });
+});
+
+//=====================================
 // Crear un hospital
 //=====================================
 app.post('/', mdAutenticacion.verificaToken, (req, res) => {
   var body = req.body;
-  console.log(body);
+
   var hospital = new Hospital({
     nombre: body.nombre,
     usuario: req.usuario._id
@@ -130,6 +160,8 @@ app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
         errors: { message: 'No existe un hospital con el ID ' + id }
       });
     }
+
+    deleteImage('hospitales', hospital.img);
 
     res.status(200).json({
       ok: true,
