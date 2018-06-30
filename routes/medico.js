@@ -1,6 +1,7 @@
 // Requires
 var express = require('express');
 var bcrypt = require('bcryptjs');
+const { deleteImage } = require('./imagenes');
 
 // Inicializar variables
 var app = express();
@@ -129,6 +130,8 @@ app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
         errors: { message: 'No existe un medico con el ID ' + id }
       });
     }
+
+    deleteImage('medicos', medico.img);
 
     res.status(200).json({
       ok: true,

@@ -1,6 +1,7 @@
 // Requires
 var express = require('express');
 var bcrypt = require('bcryptjs');
+const { deleteImage } = require('./imagenes');
 
 // Inicializar variables
 var app = express();
@@ -60,7 +61,7 @@ app.post('/', (req, res) => {
     }
 
     usuarioGuardado.password = ':)';
-    
+
     res.status(201).json({
       ok: true,
       usuario: usuarioGuardado
@@ -137,6 +138,8 @@ app.delete('/:id', mdAutenticacion.verificaToken, (req, res) => {
         errors: { message: 'No existe un usuario con el ID ' + id }
       });
     }
+
+    deleteImage('usuarios', usuario.img);
 
     usuario.password = ':)';
 

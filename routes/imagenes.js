@@ -19,6 +19,10 @@ app.get('/:tipo/:img', (req, res, next) => {
 });
 
 function deleteImage(tipo, img) {
+  if (img.indexOf('https') >= 0) {
+    return img;
+  }
+
   file = path.join(__dirname, '../uploads', tipo, img);
   // Eliminar la imagen asociada del hospital
   if (fs.existsSync(file)) {
