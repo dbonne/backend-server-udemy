@@ -1,4 +1,5 @@
 var express = require('express');
+const uuidv4 = require('uuid/v4');
 
 var fileUpload = require('express-fileupload');
 var fs = require('fs');
@@ -54,7 +55,7 @@ app.put('/:tipo/:id', (req, res, next) => {
 
   // Nombre de archivo personalizado
   // 12312312312-123.png
-  var nombreArchivo = `${id}-${new Date().getMilliseconds()}.${extensionArchivo}`;
+  var nombreArchivo = `${uuidv4()}.${extensionArchivo}`;
 
   // Mover el archivo del temporal a un path
   var path = `./uploads/${tipo}/${nombreArchivo}`;
