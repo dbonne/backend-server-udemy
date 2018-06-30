@@ -87,7 +87,13 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
 
       // Si existe, elimina la imagen anterior
       if (fs.existsSync(pathViejo)) {
-        fs.unlink(pathViejo);
+        fs.unlink(pathViejo, () => {
+          return res.status(500).json({
+            ok: false,
+            mensaje: 'Error al eliminar la imagen anterior',
+            errors: err
+          });
+        });
       }
 
       usuario.img = nombreArchivo;
@@ -118,7 +124,13 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
 
       // Si existe, elimina la imagen anterior
       if (fs.existsSync(pathViejo)) {
-        fs.unlink(pathViejo);
+        fs.unlink(pathViejo, () => {
+          return res.status(500).json({
+            ok: false,
+            mensaje: 'Error al eliminar la imagen anterior',
+            errors: err
+          });
+        });
       }
 
       medico.img = nombreArchivo;
@@ -147,7 +159,13 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
 
       // Si existe, elimina la imagen anterior
       if (fs.existsSync(pathViejo)) {
-        fs.unlink(pathViejo);
+        fs.unlink(pathViejo, () => {
+          return res.status(500).json({
+            ok: false,
+            mensaje: 'Error al eliminar la imagen anterior',
+            errors: err
+          });
+        });
       }
 
       hospital.img = nombreArchivo;
