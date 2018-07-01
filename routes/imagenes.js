@@ -19,8 +19,11 @@ app.get('/:tipo/:img', (req, res, next) => {
 });
 
 function deleteImage(tipo, img) {
+  if (!img) {
+    return;
+  }
   if (img.indexOf('https') >= 0) {
-    return img;
+    return;
   }
 
   file = path.join(__dirname, '../uploads', tipo, img);

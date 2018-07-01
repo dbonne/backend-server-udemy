@@ -61,9 +61,7 @@ app.get('/:id', mdAutenticacion.verificaToken, (req, res) => {
         });
       }
 
-      res.status(200).json({
-        hospital
-      });
+      res.status(200).json(hospital);
     });
 });
 
